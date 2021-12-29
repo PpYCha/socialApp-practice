@@ -18,6 +18,8 @@ import {
   Divider,
 } from '../styles/FeedStyles';
 import {AuthContext} from '../navigation/AuthProvider';
+import moment from 'moment';
+import ProgressiveImage from './ProgressiveImage';
 
 const PostCard = ({item, onDelete}) => {
   const {user, logout} = useContext(AuthContext);
@@ -46,12 +48,22 @@ const PostCard = ({item, onDelete}) => {
         <UserImg source={{uri: item.userImg}} />
         <UserInfoText>
           <UserName>{item.userName}</UserName>
-          <PostTime>{item.postTime.toString()}</PostTime>
+          <PostTime>{moment(item.postTime.toDate()).fromNow()}</PostTime>
         </UserInfoText>
       </UserInfo>
       <PostText>{item.post}</PostText>
-      {item.postImg != null ? (
+      {/* {item.postImg != null ? (
         <PostImg source={{uri: item.postImg}} />
+      ) : (
+        <Divider />
+      )} */}
+      {item.postImg != null ? (
+        <ProgressiveImage
+          defaultImageSource={require('../assets/default-img.jpg')}
+          source={{uri: item.postImg}}
+          style={{width: '100%', height: 250, marginTop: 15}}
+          resizeMode="cover"
+        />
       ) : (
         <Divider />
       )}
