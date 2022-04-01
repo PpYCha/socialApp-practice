@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 const FeedStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      name="RN Social"
+      name="Home"
       component={HomeScreen}
       options={{
         headerTitleAlign: 'center',
@@ -91,6 +91,7 @@ const MessageStack = ({navigation}) => (
     <Stack.Screen name="Messages" component={MessagesScreen} />
     <Stack.Screen
       name="Chat"
+      S
       component={ChatScreen}
       options={({route}) => ({
         title: route.params.userName,
