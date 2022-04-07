@@ -19,7 +19,8 @@ const Tab = createBottomTabNavigator();
 const FeedStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      name="RN Social"
+      headerShown
+      name=" "
       component={HomeScreen}
       options={{
         headerTitleAlign: 'center',
@@ -140,6 +141,7 @@ const AppStack = () => {
 
   return (
     <Tab.Navigator
+      screenOptions={{headerShown: false}}
       tabBarOptions={{
         activeTintColor: '#2e64e5',
       }}>

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.jpeg';
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
 import SocialButton from '../components/SocialButton';
@@ -24,7 +24,7 @@ const LoginScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image source={logo} style={styles.logo} />
-      <Text style={styles.text}>Waray-Waray-Song</Text>
+      {/* <Text style={styles.text}>Android Based Nutrition App for Elderly</Text> */}
 
       <FormInput
         labelValue={email}
@@ -53,7 +53,7 @@ const LoginScreen = ({navigation}) => {
       </TouchableOpacity>
 
       {Platform.OS === 'android' ? (
-        <View>
+        <View style={styles.socialContainer}>
           <SocialButton
             buttonTitle="Sign in with Facebook"
             btnType="facebook"
@@ -91,15 +91,16 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f9fafd',
+    backgroundColor: '#ffffff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
+
   logo: {
-    height: 150,
-    width: 150,
+    height: 250,
+    width: 250,
     resizeMode: 'cover',
   },
   text: {
