@@ -92,6 +92,7 @@ const MessageStack = ({navigation}) => (
     <Stack.Screen name="Messages" component={MessagesScreen} />
     <Stack.Screen
       name="Chat"
+      S
       component={ChatScreen}
       options={({route}) => ({
         title: route.params.userName,
