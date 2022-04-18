@@ -97,13 +97,13 @@ const ProfileScreen = ({navigation, route}) => {
           source={{
             uri: userData
               ? userData.userImg ||
-                'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-              : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                'https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png'
+              : 'https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png',
           }}
         />
         <Text style={styles.userName}>
-          {userData ? userData.fname || 'Test' : 'Test'}{' '}
-          {userData ? userData.lname || 'User' : 'User'}
+          {userData ? userData.fname || 'User' : 'User'}{' '}
+          {userData ? userData.lname || '' : ''}
         </Text>
         {/* <Text>{route.params ? route.params.userId : user.uid}</Text> */}
         <Text style={styles.aboutUser}>
@@ -140,14 +140,14 @@ const ProfileScreen = ({navigation, route}) => {
             <Text style={styles.userInfoTitle}>{posts.length}</Text>
             <Text style={styles.userInfoSubTitle}>Posts</Text>
           </View>
-          <View style={styles.userInfoItem}>
+          {/* <View style={styles.userInfoItem}>
             <Text style={styles.userInfoTitle}>10,000</Text>
             <Text style={styles.userInfoSubTitle}>Followers</Text>
           </View>
           <View style={styles.userInfoItem}>
             <Text style={styles.userInfoTitle}>100</Text>
             <Text style={styles.userInfoSubTitle}>Following</Text>
-          </View>
+          </View> */}
         </View>
 
         {posts.map(item => (

@@ -12,6 +12,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import EditNutritionScreen from '../screens/EditNutritionScreen';
+import AddNutritionScreen from '../screens/AddNutritionScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,7 +22,7 @@ const FeedStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       headerShown
-      name=" "
+      name="What's on your mind?"
       component={HomeScreen}
       options={{
         headerTitleAlign: 'center',
@@ -98,6 +100,57 @@ const MessageStack = ({navigation}) => (
         title: route.params.userName,
         headerBackTitleVisible: false,
       })}
+    />
+  </Stack.Navigator>
+);
+
+const FactsStack = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Nutrition Facts"
+      component={EditNutritionScreen}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerRight: () => (
+          <View style={{marginRight: 10}}>
+            <FontAwesome5.Button
+              name="plus"
+              size={22}
+              backgroundColor="#fff"
+              color="#2e64e5"
+              onPress={() => navigation.navigate('AddNutrion')}
+            />
+          </View>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="AddNutrion"
+      component={AddNutritionScreen}
+      options={{
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#2e64e515',
+          shadowColor: '#2e64e515',
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+      }}
     />
   </Stack.Navigator>
 );
@@ -186,6 +239,20 @@ const AppStack = () => {
           // tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Facts"
+        component={FactsStack}
+        options={{
+          // tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons
+              name="head-lightbulb-outline"
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

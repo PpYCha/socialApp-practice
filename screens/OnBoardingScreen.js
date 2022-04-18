@@ -53,21 +53,36 @@ const OnBoardingScreen = ({navigation}) => {
       pages={[
         {
           backgroundColor: '#a6e4d0',
-          image: <Image source={require('../assets/image1.png')} />,
-          title: 'Onboarding 1',
-          subtitle: 'Done with React Native Onboarding Swiper',
+          image: (
+            <Image
+              style={styles.imageBoard}
+              source={require('../assets/what.jpg')}
+            />
+          ),
+          title: 'asdasdsad',
+          subtitle: 'asdad',
         },
         {
           backgroundColor: '#fdeb93',
-          image: <Image source={require('../assets/image2.png')} />,
-          title: 'Onboarding 2',
-          subtitle: 'Done with React Native Onboarding Swiper',
+          image: (
+            <Image
+              style={styles.imageBoard}
+              source={require('../assets/essential.jpg')}
+            />
+          ),
+          title: 'Essential Nutrients',
+          subtitle: 'Your Guide to a Balanced Diet ',
         },
         {
           backgroundColor: '#e9bcbe',
-          image: <Image source={require('../assets/image3.png')} />,
-          title: 'Onboarding 3',
-          subtitle: 'Done with React Native Onboarding Swiper',
+          image: (
+            <Image
+              style={styles.imageBoard}
+              source={require('../assets/absorption_im01.png')}
+            />
+          ),
+          title: 'Role',
+          subtitle: 'The role of nutrients and nutrient consumption',
         },
       ]}
     />
@@ -81,5 +96,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  imageBoard: {
+    resizeMode: 'center',
   },
 });

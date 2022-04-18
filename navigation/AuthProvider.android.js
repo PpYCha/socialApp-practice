@@ -1,5 +1,6 @@
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
+import {Alert} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 // import {GoogleSignin} from '@react-native-community/google-signin';
 // import {LoginManager, AccessToken} from 'react-native-fbsdk';
@@ -16,9 +17,14 @@ export const AuthProvider = ({children}) => {
         setUser,
         login: async (email, password) => {
           try {
-            await auth().signInWithEmailAndPassword(email, password);
+            if (email === '' || password === '') {
+              Alert.alert('Alert!', 'Please input your email and password.');
+            } else {
+              await auth().signInWithEmailAndPassword(email, password);
+            }
           } catch (e) {
             console.log(e);
+            Alert.alert('Alert!', `${e.message}`);
           }
         },
         googleLogin: async () => {

@@ -58,7 +58,7 @@ const EditProfileScreen = () => {
         lname: userData.lname,
         about: userData.about,
         phone: userData.phone,
-        country: userData.country,
+
         city: userData.city,
         userImg: imgUrl,
       })
@@ -219,8 +219,8 @@ const EditProfileScreen = () => {
                     ? image
                     : userData
                     ? userData.userImg ||
-                      'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'
-                    : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+                      'https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png'
+                    : 'https://www.seekpng.com/png/full/114-1149972_avatar-free-png-image-avatar-png.png',
                 }}
                 style={{height: 100, width: 100}}
                 imageStyle={{borderRadius: 15}}>
@@ -301,17 +301,6 @@ const EditProfileScreen = () => {
           />
         </View>
 
-        <View style={styles.action}>
-          <FontAwesome name="globe" color="#333333" size={20} />
-          <TextInput
-            placeholder="Country"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            value={userData ? userData.country : ''}
-            onChangeText={txt => setUserData({...userData, country: txt})}
-            style={styles.textInput}
-          />
-        </View>
         <View style={styles.action}>
           <MaterialCommunityIcons
             name="map-marker-outline"
