@@ -1,5 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TouchableOpacity, Platform, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import FormInput from '../../components/FormInput';
 import FormButton from '../../components/FormButton';
 import SocialButton from '../../components/SocialButton';
@@ -7,10 +14,10 @@ import {AuthContext} from '../../navigation/AuthProvider';
 import {Picker} from '@react-native-picker/picker';
 
 const SignupScreen = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState();
-  const [typeofUser, settypeofUser] = useState('');
+  const [typeofUser, settypeofUser] = useState('Elderly');
 
   const {register} = useContext(AuthContext);
 
@@ -48,6 +55,7 @@ const SignupScreen = ({navigation}) => {
           style={styles.pickerStyle}
           selectedValue={typeofUser}
           onValueChange={itemValue => settypeofUser(itemValue)}>
+          {/* <Picker.Item label="Please select an option.." value="0" /> */}
           <Picker.Item label="Elderly" value="Elderly" />
           <Picker.Item label="Expert" value="Expert" />
         </Picker>
@@ -55,7 +63,13 @@ const SignupScreen = ({navigation}) => {
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => register(email, password, typeofUser)}
+        onPress={() => {
+          if (email != '' || password != '') {
+            register(email, password, typeofUser);
+          } else {
+            Alert.alert('Please input your password or email');
+          }
+        }}
       />
 
       <View style={styles.textPrivate}>

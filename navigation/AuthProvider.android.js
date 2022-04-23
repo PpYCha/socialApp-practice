@@ -114,6 +114,8 @@ export const AuthProvider = ({children}) => {
           }
         },
         register: async (email, password, typeofUser) => {
+          console.log('Check sa type of user:', typeofUser);
+
           try {
             await auth()
               .createUserWithEmailAndPassword(email, password)
@@ -141,6 +143,7 @@ export const AuthProvider = ({children}) => {
               })
               //we need to catch the whole sign up process if it fails too.
               .catch(error => {
+                Alert.alert('Something went wrong with sign up', `${error}`);
                 console.log('Something went wrong with sign up: ', error);
               });
           } catch (e) {

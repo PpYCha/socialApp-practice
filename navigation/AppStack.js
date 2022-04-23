@@ -236,9 +236,9 @@ const ProfileStack = ({navigation}) => (
 );
 
 const AppStack = () => {
-  const [typOfUser, settypOfUser] = useState('');
+  const [typOfUser, settypOfUser] = useState();
   const {user} = useContext(AuthContext);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState('');
 
   const fetchUserDetail = async () => {
     await firestore()
