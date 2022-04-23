@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import logo from '../assets/logo.jpeg';
-import FormButton from '../components/FormButton';
-import FormInput from '../components/FormInput';
-import SocialButton from '../components/SocialButton';
-import {AuthContext} from '../navigation/AuthProvider';
+import logo from '../../assets/logo.jpeg';
+import FormButton from '../../components/FormButton';
+import FormInput from '../../components/FormInput';
+import SocialButton from '../../components/SocialButton';
+import {AuthContext} from '../../navigation/AuthProvider';
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState('');

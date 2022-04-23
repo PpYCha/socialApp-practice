@@ -108,7 +108,7 @@ const EditProfileScreen = () => {
 
       setUploading(false);
       setImage(null);
-
+      console.log(url);
       // Alert.alert(
       //   'Image uploaded!',
       //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',

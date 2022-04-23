@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -12,8 +12,11 @@ import ProfileScreen from '../screens/ProfileScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import MessagesScreen from '../screens/MessagesScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
-import EditNutritionScreen from '../screens/EditNutritionScreen';
-import AddNutritionScreen from '../screens/AddNutritionScreen';
+import ListNutritionScreen from '../screens/nutrition/ListNutritionScreen';
+import AddNutritionScreen from '../screens/nutrition/AddNutritionScreen';
+import NutritionScreen from '../screens/nutrition/NutritionScreen';
+import firestore from '@react-native-firebase/firestore';
+import {AuthContext} from './AuthProvider';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -108,7 +111,7 @@ const FactsStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       name="Nutrition Facts"
-      component={EditNutritionScreen}
+      component={ListNutritionScreen}
       options={{
         headerTitleAlign: 'center',
         headerTitleStyle: {
@@ -152,6 +155,57 @@ const FactsStack = ({navigation}) => (
         ),
       }}
     />
+    <Stack.Screen
+      name="NutritionScreen"
+      component={NutritionScreen}
+      options={{title: ''}}
+    />
+  </Stack.Navigator>
+);
+
+const FactsStack1 = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Nutrition Facts"
+      component={ListNutritionScreen}
+      options={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#2e64e5',
+          fontFamily: 'Kufam-SemiBoldItalic',
+          fontSize: 18,
+        },
+        headerStyle: {
+          shadowColor: '#fff',
+          elevation: 0,
+        },
+        headerRight: () => <View style={{marginRight: 10}}></View>,
+      }}
+    />
+    <Stack.Screen
+      name="AddNutrion"
+      component={AddNutritionScreen}
+      options={{
+        title: '',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: '#2e64e515',
+          shadowColor: '#2e64e515',
+          elevation: 0,
+        },
+        headerBackTitleVisible: false,
+        headerBackImage: () => (
+          <View style={{marginLeft: 15}}>
+            <Ionicons name="arrow-back" size={25} color="#2e64e5" />
+          </View>
+        ),
+      }}
+    />
+    <Stack.Screen
+      name="NutritionScreen"
+      component={NutritionScreen}
+      options={{title: ''}}
+    />
   </Stack.Navigator>
 );
 
@@ -182,6 +236,28 @@ const ProfileStack = ({navigation}) => (
 );
 
 const AppStack = () => {
+  const [typOfUser, settypOfUser] = useState('');
+  const {user} = useContext(AuthContext);
+  const [userData, setUserData] = useState(null);
+
+  const fetchUserDetail = async () => {
+    await firestore()
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then(documentSnapshot => {
+        if (documentSnapshot.exists) {
+          // console.log('User Data', documentSnapshot.data());
+          setUserData(documentSnapshot.data());
+        }
+      });
+  };
+
+  useEffect(() => {
+    fetchUserDetail();
+    // console.log(userData.typeofUser);
+  }, []);
+
   const getTabBarVisibility = route => {
     const routeName = route.state
       ? route.state.routes[route.state.index].name
@@ -242,20 +318,37 @@ const AppStack = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="Facts"
-        component={FactsStack}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons
-              name="head-lightbulb-outline"
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
+      {userData.typeofUser === 'Elderly' ? (
+        <Tab.Screen
+          name="Facts"
+          component={FactsStack1}
+          options={{
+            // tabBarLabel: 'Home',
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons
+                name="head-lightbulb-outline"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="Facts"
+          component={FactsStack}
+          options={{
+            // tabBarLabel: 'Home',
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons
+                name="head-lightbulb-outline"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 };

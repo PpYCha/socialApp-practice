@@ -1,14 +1,16 @@
 import React, {useContext, useState} from 'react';
 import {View, Text, TouchableOpacity, Platform, StyleSheet} from 'react-native';
-import FormInput from '../components/FormInput';
-import FormButton from '../components/FormButton';
-import SocialButton from '../components/SocialButton';
-import {AuthContext} from '../navigation/AuthProvider';
+import FormInput from '../../components/FormInput';
+import FormButton from '../../components/FormButton';
+import SocialButton from '../../components/SocialButton';
+import {AuthContext} from '../../navigation/AuthProvider';
+import {Picker} from '@react-native-picker/picker';
 
 const SignupScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [typeofUser, settypeofUser] = useState('');
 
   const {register} = useContext(AuthContext);
 
@@ -41,10 +43,19 @@ const SignupScreen = ({navigation}) => {
         iconType="lock"
         secureTextEntry={true}
       />
+      <View style={styles.pickerContainer}>
+        <Picker
+          style={styles.pickerStyle}
+          selectedValue={typeofUser}
+          onValueChange={itemValue => settypeofUser(itemValue)}>
+          <Picker.Item label="Elderly" value="Elderly" />
+          <Picker.Item label="Expert" value="Expert" />
+        </Picker>
+      </View>
 
       <FormButton
         buttonTitle="Sign Up"
-        onPress={() => register(email, password)}
+        onPress={() => register(email, password, typeofUser)}
       />
 
       <View style={styles.textPrivate}>
@@ -127,5 +138,21 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'Lato-Regular',
     color: 'grey',
+  },
+  pickerStyle: {
+    width: '80%',
+    color: '#344953',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    width: '100%',
+
+    borderRadius: 15,
+    alignContent: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

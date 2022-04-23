@@ -4,8 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {AsyncStorage} from 'react-native';
 import OnBoardingScreen from '../screens/OnBoardingScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignUpScreen from '../screens/SignUpScreen';
+import LoginScreen from '../screens/log/LoginScreen';
+import SignUpScreen from '../screens/log/SignUpScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 const AppStack = createStackNavigator();
