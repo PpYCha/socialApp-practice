@@ -18,9 +18,9 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import AddImagesView from './AddImagesView';
 import {ScrollView} from 'react-native';
 
-const AddNutritionScreen = ({navigation}) => {
+const UpdateNutritionScreen = ({route, navigation}) => {
   const {user, logout} = useContext(AuthContext);
-  const [category, setCategory] = useState('Vegetables');
+  const [category, setCategory] = useState('');
   const [name, setName] = useState();
   const [description, setDescription] = useState();
   const [benifits, setBenifits] = useState();
@@ -31,132 +31,21 @@ const AddNutritionScreen = ({navigation}) => {
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const [urls, setUrls] = useState(null);
+  const [nutrImageUrl, setNutrImageUrl] = useState();
 
   const [image, setImage] = useState(null);
 
-  // const openImagePicker = () => {
-  //   let imageList = [];
-  //   ImageCropPicker.openPicker({
-  //     multiple: true,
-  //     waitAnimationEnd: false,
-  //     includeExif: true,
-  //     forceJpg: true,
-  //     compressImageQuality: 0.8,
-  //     maxFiles: 4,
-  //     mediaType: 'any',
-  //     includeBase64: true,
-  //   })
-  //     .then(response => {
-  //       // console.log('Response:', response);
-
-  //       // response.map(image => {
-  //       //   imageList.push({
-  //       //     // filename: image.filename,
-  //       //     filename: image.path.substring(image.path.lastIndexOf('/') + 1),
-  //       //     path: image.path,
-  //       //     // data: image.data,
-  //       //   });
-  //       // });
-  //       setImage(response);
-  //       console.log(response);
-  //     })
-  //     .catch(e => console.log('Error:', e.message));
-  // };
-
-  // const uploadImage = async () => {
-  //   if (image == null) {
-  //     return null;
-  //   }
-
-  //   let filename = image.filename;
-  //   console.log(filename);
-  //   const extension = filename.split('.').pop();
-  //   const name = filename.split('.').slice(0, -1).join('.');
-  //   filename = name + Date.now() + '.' + extension;
-
-  //   setUploading(true);
-  //   setTransferred(0);
-
-  //   const storageRef = storage().ref(`photos/nutrition/${filename}`);
-
-  //   const task = storageRef.putFile(file.path);
-
-  //   task.on('state_changed', taskSnapshot => {
-  //     console.log(
-  //       `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-  //     );
-
-  //     setTransferred(
-  //       Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-  //         100,
-  //     );
-  //   });
-
-  //   try {
-  //     await task;
-
-  //     const url = storageRef.getDownloadURL();
-
-  //     setUploading(false);
-  //     // setImage(null);
-  //     //show url of picture uploaded
-  //     console.log(url);
-  //     return url;
-  //   } catch (e) {
-  //     console.log(e);
-  //     return null;
-
-  //     setImage(null);
-
-  //     console.log('urls', urls);
-  //   }
-  // };
-
-  // const uploadImage = async () => {
-  //   if (image == null) {
-  //     return null;
-  //   }
-  //   const uploadUri = image;
-  //   let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
-
-  //   // Add timestamp to File Name
-  //   const extension = filename.split('.').pop();
-  //   const name = filename.split('.').slice(0, -1).join('.');
-  //   filename = name + Date.now() + '.' + extension;
-
-  //   setUploading(true);
-  //   setTransferred(0);
-
-  //   const storageRef = storage().ref(`photos/nutri/${filename}`);
-  //   const task = storageRef.putFile(uploadUri);
-
-  //   task.on('state_changed', taskSnapshot => {
-  //     console.log(
-  //       `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-  //     );
-
-  //     setTransferred(
-  //       Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-  //         100,
-  //     );
-  //   });
-
-  //   try {
-  //     await task;
-
-  //     const url = storageRef.getDownloadURL();
-
-  //     setUploading(false);
-  //     setImage(null);
-
-  //     return url;
-  //   } catch (e) {
-  //     console.log(e);
-  //     return null;
-  //   }
-
-  //   setImage(null);
-  // };
+  const {
+    name1,
+    category1,
+    description1,
+    benifits1,
+    tips1,
+    nameOfNutrition1,
+    amountOfNutrition1,
+    nutrImagUrl1,
+    docId,
+  } = route.params;
 
   const choosePhotoFromLibrary = () => {
     ImageCropPicker.openPicker({
@@ -263,6 +152,20 @@ const AddNutritionScreen = ({navigation}) => {
       });
   };
 
+  const handleDelete = async () => {
+    firestore()
+      .collection('facts')
+      .doc(category)
+      .collection('subCategory')
+      .doc(docId)
+      .delete()
+      .then(() => {
+        Alert.alert('Deleted!', 'Has been deleted Successfully!');
+
+        navigation.navigate('Nutrition Facts');
+      });
+  };
+
   const getUser = async () => {
     const currentUser = await firestore()
       .collection('users')
@@ -278,6 +181,14 @@ const AddNutritionScreen = ({navigation}) => {
 
   useEffect(() => {
     getUser();
+    setName(name1);
+    setCategory(category1);
+    setDescription(description1);
+    setBenifits(benifits1);
+    setTips(tips1);
+    setNameOfNutrition(nameOfNutrition1);
+    setAmountOfNutrition(amountOfNutrition1);
+    setNutrImageUrl(nutrImagUrl1);
   }, []);
 
   return (
@@ -285,22 +196,26 @@ const AddNutritionScreen = ({navigation}) => {
       <ScrollView>
         <View style={{margin: 20}}>
           <View style={styles.containerImage}>
-            {image === null ? (
+            {/* {nutrImageUrl === null ? (
               <TouchableOpacity
                 onPress={choosePhotoFromLibrary}
                 style={styles.noImage}>
                 <Image source={require('../../assets/default-img.jpg')} />
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity
-                onPress={choosePhotoFromLibrary}
-                style={styles.noImage}>
-                <Image
-                  source={{uri: image}}
-                  style={{height: 100, width: '100%'}}
-                />
-              </TouchableOpacity>
-            )}
+              <></>
+            )} */}
+
+            <TouchableOpacity
+              onPress={choosePhotoFromLibrary}
+              style={styles.noImage}>
+              <Image
+                source={{
+                  uri: nutrImageUrl,
+                }}
+                style={styles.image}
+              />
+            </TouchableOpacity>
           </View>
           <Picker
             style={styles.pickerStyle}
@@ -314,46 +229,52 @@ const AddNutritionScreen = ({navigation}) => {
           </Picker>
           <CustomTextInput
             placeholder="Name"
+            value={name}
             onChangeText={txt => setName(txt)}
           />
           <CustomTextInput
             placeholder="Description"
+            value={description}
             multiline
             numberOfLines={5}
             onChangeText={txt => setDescription(txt)}
           />
           <CustomTextInput
             placeholder="Benifits"
+            value={benifits}
             multiline
             numberOfLines={5}
             onChangeText={txt => setBenifits(txt)}
           />
           <CustomTextInput
             placeholder="Tips"
+            value={tips}
             multiline
             numberOfLines={5}
             onChangeText={txt => setTips(txt)}
           />
           <CustomTextInput
             placeholder="Nutrition Facts"
+            value={nameOfNutrition}
             multiline
             numberOfLines={5}
             onChangeText={txt => setNameOfNutrition(txt)}
           />
           {/* <CustomTextInput
-            placeholder="Amount of Nutrion"
-            onChangeText={txt => setAmountOfNutrition(txt)}
-          /> */}
+              placeholder="Amount of Nutrion"
+              onChangeText={txt => setAmountOfNutrition(txt)}
+            /> */}
           {/* <AddImagesView newImages={image} addImage={choosePhotoFromLibrary} /> */}
 
           <FormButton buttonTitle="Save" onPress={handleSave} />
+          <FormButton buttonTitle="Delete" onPress={handleDelete} />
         </View>
       </ScrollView>
     </View>
   );
 };
 
-export default AddNutritionScreen;
+export default UpdateNutritionScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -367,7 +288,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   noImage: {
-    // height: 200,
     width: '100%',
     borderRadius: 15,
     justifyContent: 'center',
@@ -380,5 +300,10 @@ const styles = StyleSheet.create({
     // paddingRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    width: 350,
+    height: 250,
+    resizeMode: 'stretch',
   },
 });

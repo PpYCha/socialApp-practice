@@ -48,41 +48,60 @@ const NutritionScreen = ({route}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
+        <View style={styles.containerImage}>
+          {nutrImagUrl === null ? (
+            <TouchableOpacity style={styles.noImage}>
+              <Image
+                style={styles.image}
+                source={require('../../assets/default-img.jpg')}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.noImage}>
+              <Image source={{uri: nutrImagUrl}} style={styles.image} />
+            </TouchableOpacity>
+          )}
+        </View>
         <View style={{margin: 20}}>
-          <Picker style={styles.pickerStyle} selectedValue={category}>
+          {/* <Picker style={styles.pickerStyle} selectedValue={category}>
             <Picker.Item label="Vegetables" value={category} />
             <Picker.Item label="Fruits" value="Fruits" />
             <Picker.Item label="Drinks" value="Drinks" />
             <Picker.Item label="Meat" value="Meat" />
             <Picker.Item label="Fish" value="Fish" />
-          </Picker>
+          </Picker> */}
           <Text>Name</Text>
           <CustomTextInput value={name} editable={false} />
           <Text>Description</Text>
-          <CustomTextInput value={description} editable={false} />
+          <CustomTextInput
+            value={description}
+            editable={false}
+            multiline
+            numberOfLines={5}
+          />
           <Text>Benifits</Text>
-          <CustomTextInput value={benifits} editable={false} />
+          <CustomTextInput
+            value={benifits}
+            editable={false}
+            multiline
+            numberOfLines={5}
+          />
           <Text>Tips</Text>
-          <CustomTextInput value={tips} editable={false} />
-          <Text>Name of Nutrition</Text>
-          <CustomTextInput value={nameOfNutrition} editable={false} />
-          <Text>Amount of Nutrition</Text>
-          <CustomTextInput value={amountOfNutrition} editable={false} />
-
-          <View style={styles.containerImage}>
-            {nutrImagUrl === null ? (
-              <TouchableOpacity style={styles.noImage}>
-                <Image source={require('../../assets/default-img.jpg')} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity style={styles.noImage}>
-                <Image
-                  source={{uri: nutrImagUrl}}
-                  style={{height: 100, width: 100}}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
+          <CustomTextInput
+            multiline
+            numberOfLines={5}
+            value={tips}
+            editable={false}
+          />
+          <Text>Nutrition Facts</Text>
+          <CustomTextInput
+            multiline
+            numberOfLines={5}
+            value={nameOfNutrition}
+            editable={false}
+          />
+          {/* <Text>Amount of Nutrition</Text>
+          <CustomTextInput value={amountOfNutrition} editable={false} /> */}
         </View>
       </ScrollView>
     </View>
@@ -95,6 +114,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    padding: 5,
+    margin: 5,
   },
   pickerStyle: {
     height: 150,
@@ -116,5 +137,10 @@ const styles = StyleSheet.create({
     // paddingRight: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    width: 350,
+    height: 250,
+    resizeMode: 'stretch',
   },
 });

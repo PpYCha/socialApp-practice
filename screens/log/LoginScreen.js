@@ -57,7 +57,7 @@ const LoginScreen = ({navigation}) => {
 
       {Platform.OS === 'android' ? (
         <View style={styles.socialContainer}>
-          <SocialButton
+          {/* <SocialButton
             buttonTitle="Sign in with Facebook"
             btnType="facebook"
             color="#4867aa"
@@ -73,7 +73,7 @@ const LoginScreen = ({navigation}) => {
             color="#de4d41"
             backgroundColor="#f5e7ea"
             onPress={() => googleLogin()}
-          />
+          /> */}
         </View>
       ) : null}
 

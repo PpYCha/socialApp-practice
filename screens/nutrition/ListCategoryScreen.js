@@ -18,13 +18,19 @@ import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import CustomFlatlist from '../../components/CustomFlatlist';
 import {useIsFocused} from '@react-navigation/native';
 
-const EditNutritionScreen = ({navigation}) => {
+const ListCategoryScreen = ({route, navigation}) => {
   const isFocused = useIsFocused();
   const [nutriFacts, setNutriFacts] = useState(null);
   const [userData, setUserData] = useState(null);
+  const {user} = useContext(AuthContext);
+  // const [loading, setLoading] = useState(second)
+
+  const {categoryName} = route.params;
+
+  console.log('Line 27', categoryName);
 
   const getUser = async () => {
-    const currentUser = await firestore()
+    await firestore()
       .collection('users')
       .doc(user.uid)
       .get()
@@ -35,6 +41,7 @@ const EditNutritionScreen = ({navigation}) => {
           setUserData(documentSnapshot.data());
         }
       });
+    console.log('line 43:', userData);
   };
 
   const fetchPosts = async () => {
@@ -42,18 +49,41 @@ const EditNutritionScreen = ({navigation}) => {
       const list = [];
       await firestore()
         .collection('facts')
+        .doc(categoryName)
+        .collection('subCategory')
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
-            const {categoryName} = doc.data();
+            const docId = doc.id;
+            const {
+              category,
+              name,
+              description,
+              benifits,
+              tips,
+              nameOfNutrition,
+              // amountOfNutrition,
+              nutrImagUrl,
+              userId,
+            } = doc.data();
             list.push({
-              categoryName,
+              category,
+              name,
+              description,
+              benifits,
+              tips,
+              nameOfNutrition,
+              // amountOfNutrition,
+              nutrImagUrl,
+              userId,
+              docId,
             });
           });
         });
 
       setNutriFacts(list);
-      console.log('data:', list);
+
+      //show list of Nutrifacts
     } catch (e) {
       console.log(e);
     }
@@ -61,6 +91,7 @@ const EditNutritionScreen = ({navigation}) => {
 
   useEffect(() => {
     fetchPosts();
+    getUser();
   }, [isFocused]);
 
   const renderItem = ({item}) => {
@@ -68,81 +99,62 @@ const EditNutritionScreen = ({navigation}) => {
       <TouchableOpacity
         style={styles.ItemContainer}
         onPress={() => {
-          navigation.navigate('ListCategoryScreen', {
-            categoryName: item.categoryName,
-          });
+          {
+            userData.typeofUser == 'Elderly'
+              ? navigation.navigate('NutritionScreen', {
+                  category: item.category,
+                  name: item.name,
+                  description: item.description,
+                  benifits: item.benifits,
+                  tips: item.tips,
+                  nameOfNutrition: item.nameOfNutrition,
+                  // amountOfNutrition: item.amountOfNutrition,
+                  nutrImagUrl: item.nutrImagUrl,
+                })
+              : navigation.navigate('UpdateNutritionScreen', {
+                  category1: item.category,
+                  name1: item.name,
+                  description1: item.description,
+                  benifits1: item.benifits,
+                  tips1: item.tips,
+                  nameOfNutrition1: item.nameOfNutrition,
+                  // amountOfNutrition: item.amountOfNutrition,
+                  nutrImagUrl1: item.nutrImagUrl,
+                  docId: item.docId,
+                });
+          }
         }}>
-        {item.categoryName == 'Vegetables' ? (
-          <Image
-            source={require('../../assets/Vegetables.jpg')}
-            style={styles.image}
-          />
-        ) : (
-          <></>
-        )}
-        {item.categoryName == 'Fruits' ? (
-          <Image
-            source={require('../../assets/Fruits.jpg')}
-            style={styles.image}
-          />
-        ) : (
-          <></>
-        )}
-        {item.categoryName == 'Drinks' ? (
-          <Image
-            source={require('../../assets/Drinks.jpg')}
-            style={styles.image}
-          />
-        ) : (
-          <></>
-        )}
-        {item.categoryName == 'Meat' ? (
-          <Image
-            source={require('../../assets/Meat.jpg')}
-            style={styles.image}
-          />
-        ) : (
-          <></>
-        )}
-        {item.categoryName == 'Fish' ? (
-          <Image
-            source={require('../../assets/Fish.jpg')}
-            style={styles.image}
-          />
-        ) : (
-          <></>
-        )}
-
-        <Text style={styles.textCategory}>{item.categoryName}</Text>
+        <Image source={{uri: item.nutrImagUrl}} style={styles.image} />
+        <Text style={styles.textCategory}>{item.name}</Text>
       </TouchableOpacity>
     );
   };
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{margin: 20}}>
         <FlatList
           data={nutriFacts}
           extraData={nutriFacts}
-          keyExtractor={item => item.userId}
+          keyExtractor={item => item.docId}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
         />
         {/* <SectionList
-          style={styles.container}
-          sections={nutriFacts}
-          keyExtractor={item => item.userId}
-          renderItem={({item}) => <Text style={styles.row}>{item.name}</Text>}
-          renderSectionHeader={({section}) => (
-            <Text style={styles.header}>{section.category}</Text>
-          )}
-        /> */}
+            style={styles.container}
+            sections={nutriFacts}
+            keyExtractor={item => item.userId}
+            renderItem={({item}) => <Text style={styles.row}>{item.name}</Text>}
+            renderSectionHeader={({section}) => (
+              <Text style={styles.header}>{section.category}</Text>
+            )}
+          /> */}
       </View>
     </View>
   );
 };
 
-export default EditNutritionScreen;
+export default ListCategoryScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -158,8 +170,6 @@ const styles = StyleSheet.create({
   textCategory: {
     fontSize: 30,
     marginLeft: 30,
-    // borderBottomColor: 'gray',
-    // borderBottomWidth: 1,
   },
   row: {
     padding: 15,
@@ -173,6 +183,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+  },
   ItemContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -183,10 +198,5 @@ const styles = StyleSheet.create({
 
     borderBottomColor: 'gray',
     borderBottomWidth: 0.5,
-  },
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
   },
 });

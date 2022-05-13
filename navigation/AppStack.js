@@ -7,16 +7,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import HomeScreen from '../screens/HomeScreen';
-import ChatScreen from '../screens/ChatScreen';
+import ChatScreen from '../screens/messages/ChatScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AddPostScreen from '../screens/AddPostScreen';
-import MessagesScreen from '../screens/MessagesScreen';
+import MessagesScreen from '../screens/messages/MessagesScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import ListNutritionScreen from '../screens/nutrition/ListNutritionScreen';
 import AddNutritionScreen from '../screens/nutrition/AddNutritionScreen';
 import NutritionScreen from '../screens/nutrition/NutritionScreen';
 import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from './AuthProvider';
+import ListCategoryScreen from '../screens/nutrition/ListCategoryScreen';
+import UpdateNutritionScreen from '../screens/nutrition/UpdateNutritionScreen';
+import ExpertList from '../screens/messages/ExpertList';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -95,6 +98,7 @@ const FeedStack = ({navigation}) => (
 const MessageStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen name="Messages" component={MessagesScreen} />
+
     <Stack.Screen
       name="Chat"
       S
@@ -104,9 +108,17 @@ const MessageStack = ({navigation}) => (
         headerBackTitleVisible: false,
       })}
     />
+    <Stack.Screen
+      name="ExpertList"
+      component={ExpertList}
+      options={() => ({
+        title: 'Expert Contacts',
+      })}
+    />
   </Stack.Navigator>
 );
 
+//Admin Expert
 const FactsStack = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
@@ -158,11 +170,23 @@ const FactsStack = ({navigation}) => (
     <Stack.Screen
       name="NutritionScreen"
       component={NutritionScreen}
-      options={{title: ''}}
+      options={{title: '', headerShown: false}}
+    />
+
+    <Stack.Screen
+      name="UpdateNutritionScreen"
+      component={UpdateNutritionScreen}
+      options={{title: '', headerShown: false}}
+    />
+    <Stack.Screen
+      name="ListCategoryScreen"
+      component={ListCategoryScreen}
+      options={{title: '', headerShown: false}}
     />
   </Stack.Navigator>
 );
 
+//Elderly
 const FactsStack1 = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
@@ -204,6 +228,11 @@ const FactsStack1 = ({navigation}) => (
     <Stack.Screen
       name="NutritionScreen"
       component={NutritionScreen}
+      options={{title: ''}}
+    />
+    <Stack.Screen
+      name="ListCategoryScreen"
+      component={ListCategoryScreen}
       options={{title: ''}}
     />
   </Stack.Navigator>
@@ -319,6 +348,7 @@ const AppStack = () => {
         }}
       />
       {userData.typeofUser === 'Elderly' ? (
+        //Elderly
         <Tab.Screen
           name="Facts"
           component={FactsStack1}

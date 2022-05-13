@@ -113,7 +113,7 @@ export const AuthProvider = ({children}) => {
             console.log({error});
           }
         },
-        register: async (email, password, typeofUser) => {
+        register: async (email, password, typeofUser, fname, lname) => {
           console.log('Check sa type of user:', typeofUser);
 
           try {
@@ -126,8 +126,8 @@ export const AuthProvider = ({children}) => {
                   .collection('users')
                   .doc(auth().currentUser.uid)
                   .set({
-                    fname: '',
-                    lname: '',
+                    fname: fname,
+                    lname: lname,
                     email: email,
                     typeofUser: typeofUser,
                     createdAt: firestore.Timestamp.fromDate(new Date()),
