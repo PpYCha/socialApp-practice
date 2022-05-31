@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
   textCategory: {
     fontSize: 30,
     marginLeft: 30,
+    color: 'black',
   },
   row: {
     padding: 15,

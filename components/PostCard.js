@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import {
   Container,
@@ -37,7 +38,7 @@ const PostCard = ({item, onDelete, onPress}) => {
   } else if (item.likes > 1) {
     likeText = item.likes + ' Likes';
   } else {
-    likeText = 'Like';
+    likeText = 'Effective';
   }
 
   if (item.comments == 1) {
@@ -45,7 +46,7 @@ const PostCard = ({item, onDelete, onPress}) => {
   } else if (item.comments > 1) {
     commentText = item.comments + ' Comments';
   } else {
-    commentText = 'Comment';
+    commentText = 'Not Effective';
   }
 
   const getUser = async () => {
@@ -101,13 +102,17 @@ const PostCard = ({item, onDelete, onPress}) => {
 
       <InteractionWrapper>
         <Interaction active={item.liked}>
-          <Ionicons name={likeIcon} size={25} color={likeIconColor} />
+          <SimpleLineIcons name={'like'} size={25} color={likeIconColor} />
           <InteractionText active={item.liked}>{likeText}</InteractionText>
         </Interaction>
-        <Interaction>
+        <Interaction active={item.liked}>
+          <SimpleLineIcons name={'dislike'} size={25} color={likeIconColor} />
+          <InteractionText active={item.liked}>{commentText}</InteractionText>
+        </Interaction>
+        {/* <Interaction>
           <Ionicons name="md-chatbubble-outline" size={25} />
           <InteractionText>{commentText}</InteractionText>
-        </Interaction>
+        </Interaction> */}
         {user.uid == item.userId ? (
           <Interaction onPress={() => onDelete(item.id)}>
             <Ionicons name="md-trash-bin" size={25} />

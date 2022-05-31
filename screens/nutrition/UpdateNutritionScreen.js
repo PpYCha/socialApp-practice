@@ -226,6 +226,7 @@ const UpdateNutritionScreen = ({route, navigation}) => {
             <Picker.Item label="Drinks" value="Drinks" />
             <Picker.Item label="Meat" value="Meat" />
             <Picker.Item label="Fish" value="Fish" />
+            <Picker.Item label="Others" value="Others" />
           </Picker>
           <CustomTextInput
             placeholder="Name"

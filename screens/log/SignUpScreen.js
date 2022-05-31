@@ -65,6 +65,26 @@ const SignupScreen = ({navigation}) => {
           placeholderText="Lastname"
         />
 
+        <FormInput
+          labelValue={lname}
+          onChangeText={text => setLname(text)}
+          placeholderText="Contact #"
+        />
+
+        <FormInput
+          labelValue={lname}
+          onChangeText={text => setLname(text)}
+          placeholderText="Working Address"
+        />
+
+        <FormButton buttonTitle="Upload License Picture" onPress={() => {}} />
+
+        <FormInput
+          labelValue={lname}
+          onChangeText={text => setLname(text)}
+          placeholderText="Length of Practice"
+        />
+
         <View style={styles.pickerContainer}>
           <Picker
             style={styles.pickerStyle}

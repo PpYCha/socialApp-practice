@@ -112,6 +112,14 @@ const EditNutritionScreen = ({navigation}) => {
         ) : (
           <></>
         )}
+        {item.categoryName == 'Others' ? (
+          <Image
+            source={require('../../assets/Others.jpg')}
+            style={styles.image}
+          />
+        ) : (
+          <></>
+        )}
 
         <Text style={styles.textCategory}>{item.categoryName}</Text>
       </TouchableOpacity>
@@ -158,6 +166,7 @@ const styles = StyleSheet.create({
   textCategory: {
     fontSize: 30,
     marginLeft: 30,
+    color: 'black',
     // borderBottomColor: 'gray',
     // borderBottomWidth: 1,
   },

@@ -61,7 +61,7 @@ const ProfileScreen = ({navigation, route}) => {
 
       console.log('Posts: ', posts);
     } catch (e) {
-      console.log(e);
+      console.log('Error Ine', e);
     }
   };
 

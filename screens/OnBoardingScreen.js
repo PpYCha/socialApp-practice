@@ -67,7 +67,7 @@ const OnBoardingScreen = ({navigation}) => {
           image: (
             <Image
               style={styles.imageBoard}
-              source={require('../assets/essential.jpg')}
+              source={require('../assets/eatur.jpg')}
             />
           ),
           title: 'Essential Nutrients',
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageBoard: {
-    resizeMode: 'center',
+    // resizeMode: 'center',
   },
 });

@@ -52,11 +52,18 @@ const ExpertList = ({navigation}) => {
         renderItem={({item}) => (
           <Card
             onPress={() =>
-              navigation.navigate('Chat', {userName: item.userName})
+              navigation.navigate('Chat', {
+                userName: item.fname + ' ' + item.lname,
+                expertId: item.id,
+              })
             }>
             <UserInfo>
               <UserImgWrapper>
-                <UserImg source={item.userImg} />
+                <UserImg
+                  source={{
+                    uri: item.userImg,
+                  }}
+                />
               </UserImgWrapper>
               <TextSection>
                 <UserInfoText>
